@@ -398,6 +398,9 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
+            .attr("transform", function(d) {
+                return "rotate(90)" 
+            })
             .text(function(d) {
                 return d.name;
             })
