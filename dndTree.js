@@ -303,7 +303,7 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
 
     function centerNode(source) {
         // scale = zoomListener.scale() * (source.x0 / 2 / viewerWidth);
-        scale = zoomListener.scale() * (source.x0 / 2 / viewerWidth);
+        scale = zoomListener.scale() * (source.x0 / 2 / viewerWidth) || 1;
         x = -source.x0;
         y = -source.y0;
         x = x * scale + viewerWidth / 2;
@@ -355,7 +355,7 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
         };
         childCount(0, root);
         var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
-        tree = tree.size([newHeight, levelWidth]);
+        tree = tree.nodeSize([maxLabelLength * 5, 0]);
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
@@ -392,12 +392,14 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
 
         nodeEnter.append("text")
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                return 10;
+                // return d.children || d._children ? -10 : 10;
             })
             .attr("dy", ".35em")
             .attr('class', 'nodeText')
             .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
+                return "start"
+                // return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
                 return d.name;
@@ -421,10 +423,12 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
         // Update the text to reflect whether node has children or not.
         node.select('text')
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                return 10;
+                // return d.children || d._children ? -10 : 10;
             })
             .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
+                return "start";
+                // return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
                 return d.name;
