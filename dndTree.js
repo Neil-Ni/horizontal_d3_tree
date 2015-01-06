@@ -22,6 +22,7 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
     var tree = d3.layout.tree()
         .size([viewerHeight, viewerWidth]);
 
+
     // define a d3 diagonal projection for use by the node paths later on.
     var diagonal = d3.svg.diagonal()
         .projection(function(d) {
@@ -355,7 +356,6 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
         childCount(0, root);
         var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
         tree = tree.size([newHeight, levelWidth]);
-
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
@@ -398,9 +398,6 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
             .attr('class', 'nodeText')
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
-            })
-            .attr("transform", function(d) {
-                return "rotate(90)" 
             })
             .text(function(d) {
                 return d.name;
