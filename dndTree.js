@@ -301,11 +301,12 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
     function centerNode(source) {
-        scale = zoomListener.scale();
-        x = -source.y0;
-        y = -source.x0;
+        // scale = zoomListener.scale() * (source.x0 / 2 / viewerWidth);
+        scale = zoomListener.scale() * (source.x0 / 2 / viewerWidth);
+        x = -source.x0;
+        y = -source.y0;
         x = x * scale + viewerWidth / 2;
-        y = y * scale + viewerHeight / 2;
+        y = y * scale + viewerHeight / 4;
         d3.select('g').transition()
             .duration(duration)
             .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
@@ -353,7 +354,7 @@ treeJSON = d3.json("flare.json", function(error, treeData) {
         };
         childCount(0, root);
         var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
-        tree = tree.size([newHeight, levelWidth/2]);
+        tree = tree.size([newHeight, levelWidth]);
 
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
